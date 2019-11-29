@@ -56,7 +56,7 @@ module.exports.connectionHandler = (event, context, callback) => {
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
-const addConnection = connectionId => {
+const addConnection = async (connectionId) => {
 
   let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
 
@@ -65,7 +65,7 @@ const addConnection = connectionId => {
   return results
 };
 
-const deleteConnection = connectionId => {
+const deleteConnection = async (connectionId) => {
 
   let results = await mysql.query('DELETE FROM Scrum_connectiontable WHERE connectionid = connectionId')
 

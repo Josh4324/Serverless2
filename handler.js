@@ -64,14 +64,13 @@ const addConnection = (connectionId) => {
   
   let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
 
-  let results = await mysql.query(sql, [connectionId])
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
 
   connection.query(sql,[connectionId], (error,rows) => {
     if (error) throw error
   });
 
-  console.log(results)
+
 
   
 };

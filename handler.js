@@ -16,6 +16,8 @@ mysql.config({
   body: 'everything is alright'
 };
 
+new
+
 module.exports.connectionHandler = (event, context, callback) => {
   console.log(event);
 
@@ -57,7 +59,7 @@ module.exports.connectionHandler = (event, context, callback) => {
 };
 
 const addConnection = async (connectionId) => {
-  let sql = "INSERT INTO Scrum_connectiontable(connectionid) VALUES("+connectionId+");" 
+  let sql = "INSERT INTO Scrum_connectiontable (connectionid) VALUES(?),[connectionId]" 
 
   let results = await mysql.query(sql)
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')

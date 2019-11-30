@@ -69,7 +69,7 @@ const addConnection = async (connectionId) => {
 
   await mysql.end() 
 
-  return results
+  console.log(results)
 };
 
 const deleteConnection = async (connectionId) => {

@@ -57,10 +57,10 @@ module.exports.connectionHandler = (event, context, callback) => {
 };
 
 const addConnection = async (connectionId) => {
-  let post = {connectionid : connectionId}
-  let sql = "INSERT INTO Scrum_connectiontable SET ?"
+  
+  let sql = 'INSERT INTO Scrum_connectiontable SET ?'
 
-  let results = await mysql.query(sql, post, (error,results,fields) => {
+  let results = await mysql.query(sql, {connectionid : connectionId},  (error,results,fields) => {
     if (error) throw error;
   })
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')

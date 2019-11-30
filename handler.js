@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
   user :'linuxjobber',
   password: '8iu7*IU&',
   database : 'chatscrum',
-  port: '3000',
+  port: '3000'
 });
 
 connection.connect();
@@ -63,11 +63,11 @@ module.exports.connectionHandler = (event, context, callback) => {
 
 const addConnection = async (connectionId) => {
   
-  let sql = 'SHOW TABLES'
+  let sql = 'NSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
 
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
-  let results = await connection.query(sql)
-  console.log(results)
+  let results = await connection.query( sql,[connectionId] )
+
   return results
 
 }

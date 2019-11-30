@@ -66,7 +66,7 @@ const addConnection = async (connectionId) => {
 
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
   let results = await connection.query(sql)
-  consolelog(results)
+  console.log(results)
   return results
 
 }

@@ -59,4 +59,5 @@ resources:
           - IpProtocol: -1
             CidrIp: 127.0.0.1/32
         VpcId:
-           vpc-581e9720
+          vpc-581e9720
+          

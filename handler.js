@@ -16,10 +16,12 @@ mysql.config({
   body: 'everything is alright'
 };
 
-await mysql.connect()
 
-module.exports.connectionHandler = (event, context, callback) => {
+
+module.exports.connectionHandler = async (event, context, callback) => {
   console.log(event);
+
+  await mysql.connect()
 
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection

@@ -14,36 +14,14 @@ provider:
 
 # you can overwrite defaults here
   stage: dev
-  
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+  vpc:
+    securityGroudIds:
+      - sg-0664956cfa7332d1a
+    subnetIds:
+      - subnet-2158ad7c
+      - subnet-4702050c
+      - subnet-a5137f8e
+      - subnet-cedcc6b7
 
 
 functions:
@@ -69,3 +47,16 @@ functions:
     events:
       - websocket:
           route: init
+
+resources:
+  Resources:
+    LambdaSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupName: lj_sec_group
+        GroupDescription: Allow all outbound traffic, no inbound
+        SecurityGroupIngress:
+          - IpProtocol: -1
+            CidrIp: 127.0.0.1/32
+        VpcId:
+           vpc-581e9720

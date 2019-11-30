@@ -2,26 +2,26 @@
 
 const AWS = require('aws-sdk');
 require('aws-sdk/clients/apigatewaymanagementapi');
-const mysql = require('serverless-mysql')()
+const mysql = require('mysql')
 
-mysql.config({
+const connection = mysql.createConnection({
   host: '34.217.176.147',
-  database : 'chatscrum',
   user :'root',
-  password: '8iu7*IU&'
- })
+  password: '8iu7*IU&',
+  database : 'chatscrum',
+});
+
+connection.connect();
+
 
  const successfullResponse = {
   statusCode: 200,
   body: 'everything is alright'
 };
 
-mysql.connect()
 
 module.exports.connectionHandler = (event, context, callback) => {
   console.log(event);
-
-  mysql.connect()
 
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection
@@ -60,16 +60,20 @@ module.exports.connectionHandler = (event, context, callback) => {
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
-const addConnection = async (connectionId) => {
+const addConnection = (connectionId) => {
   
   let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
 
   let results = await mysql.query(sql, [connectionId])
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
 
-  await mysql.end() 
+  connection.query(sql,[connectionId], (error,rows) => {
+    if (error) throw error
+  });
 
   console.log(results)
+
+  
 };
 
 const deleteConnection = async (connectionId) => {

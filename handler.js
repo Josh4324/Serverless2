@@ -62,11 +62,11 @@ module.exports.connectionHandler = (event, context, callback) => {
 
 const addConnection = async (connectionId) => {
   
-  let sql = 'SELECT * TABLES FROM chatscrum'
+  let sql = 'SHOW TABLES'
 
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
-  let results = await connection.query( sql)
-
+  let results = await connection.query(sql)
+  consolelog(results)
   return results
 
 }

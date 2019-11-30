@@ -16,6 +16,8 @@ mysql.config({
   body: 'everything is alright'
 };
 
+await mysql.connect()
+
 module.exports.connectionHandler = (event, context, callback) => {
   console.log(event);
 

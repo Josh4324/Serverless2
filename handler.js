@@ -24,12 +24,10 @@ const connectfunc = () => {
 
 module.exports.connectionHandler = (event, context, callback) => {
   console.log(event);
-  const connection = connectfunc();
-  connection.connect();
 
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection
-    addConnection(event.requestContext.connectionId,connection)
+    addConnection(event.requestContext.connectionId)
   
   } else if (event.requestContext.eventType === 'MESSAGE') {
           sendInit(event).then(() => {
@@ -41,7 +39,7 @@ module.exports.connectionHandler = (event, context, callback) => {
 
  else if (event.requestContext.eventType === 'DISCONNECT') {
     //Handle disconnection
-    deleteConnection(event.requestContext.connectionId,connection)
+    deleteConnection(event.requestContext.connectionId)
     
   }
 
@@ -50,7 +48,9 @@ module.exports.connectionHandler = (event, context, callback) => {
 };
 
 
-const addConnection = (connectionId,connection) => {
+const addConnection = (connectionId) => {
+  const connection = connectfunc();
+  connection.connect();
   let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
   connection.query( sql,[connectionId], (res,err) => {
     if(err) {
@@ -62,7 +62,9 @@ const addConnection = (connectionId,connection) => {
   })
 };
 
-const deleteConnection = (connectionId,connection) => {
+const deleteConnection = (connectionId) => {
+  const connection = connectfunc();
+  connection.connect();
   let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
   connection.query(sql,[connectionId], (res,err) => {
     if (err) {

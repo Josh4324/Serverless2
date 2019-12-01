@@ -113,7 +113,7 @@ const sendMessageToAllConnected = async (event) => {
     port: '3000'
   })
 
-  pool.getConnection((err,connection) => {
+  pool.getConnection( async (err,connection) => {
     if (err){
       throw err
     }else {
@@ -165,7 +165,6 @@ const sendMessageToAllConnected = async (event) => {
 
 
               return apigwManagementApi.postToConnection(params).promise();
-
 
 
 

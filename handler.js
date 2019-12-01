@@ -33,7 +33,6 @@ module.exports.connectionHandler = (event, context, callback) => {
       .catch(err => {
         console.log(err);
         callback(null, JSON.stringify(err));
-        connection.end()
       });
   } else if (event.requestContext.eventType === 'MESSAGE') {
           sendInit(event).then(() => {
@@ -51,12 +50,12 @@ module.exports.connectionHandler = (event, context, callback) => {
       })
       .catch(err => {
         console.log(err);
-
+        connection.end()
         callback(null, {
           statusCode: 500,
           body: 'Failed to connect: ' + JSON.stringify(err)
         });
-        connection.end()
+        
       });
   }
 
@@ -71,7 +70,7 @@ const addConnection = async (connectionId) => {
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
   let results = await connection.query( sql,[connectionId] )
 
-  
+  connection.end()
 
   return results
 

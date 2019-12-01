@@ -82,7 +82,7 @@ const deleteConnection = async (connectionId) => {
   let results = await connection.query(sql,[connectionId])
 
 
-  await mysql.end()
+  connection.end()
 
   return results
 };

@@ -64,24 +64,6 @@ module.exports.connectionHandler = (event, context, callback) => {
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
-const addConnection = async (connectionId) => {
-  
-  let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
-  let results = await connection.query( sql,[connectionId] )
-
-  return results
-
- 
-
-}
-
-const deleteConnection = async (connectionId) => {
-
-  let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
-  let results = await connection.query(sql,[connectionId])
-
-  return results
-};
 
 
 

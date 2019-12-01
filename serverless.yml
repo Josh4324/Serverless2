@@ -30,6 +30,10 @@ functions:
     events:
     - websocket:
         route: $default
-
+  sendMessageHandler:
+    handler: handler.sendMessageHandler
+    events:
+      - websocket:
+          route: message
 
           

@@ -61,6 +61,14 @@ module.exports.connectionHandler = (event, context, callback) => {
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
+module.exports.sendMessageHandler = (event, context, callback) => {
+  sendMessageToAllConnected(event).then(() => {
+    callback(null, successfullResponse)
+  }).catch (err => {
+    callback(null, JSON.stringify(err));
+  });
+}
+
 
 const addConnection = async (connectionId) => {
   const connection = connectfunc();
@@ -93,3 +101,20 @@ const  deleteConnection = async (connectionId) => {
   
   return result
 };
+
+const sendMessageToAllConnected = (event) => {
+  const connection = connectfunc();
+  connection.connect();
+  let sql = 'SELECT connectionid from Scrum_connectiontable'
+  let result = await connection.query(sql, (res,err) => {
+    if (res){
+      console.log(res)
+      connection.end()
+    }
+    else{
+      connection.end
+    }
+  });
+
+  return result
+}

@@ -104,6 +104,12 @@ const  deleteConnection = async (connectionId) => {
 
 const sendMessageToAllConnected = async (event) => {
   const connection = connectfunc();
+  const connection1 = connectfunc(); 
+  const connection2 = connectfunc(); 
+  const connection3 = connectfunc(); 
+  const connection4 = connectfunc();
+  const connection5 = connectfunc()
+  
   connection.connect();
   let sql = 'SELECT connectionid from Scrum_connectiontable'
   let result = await connection.query(sql, (error, results, fields) => {
@@ -118,11 +124,7 @@ const sendMessageToAllConnected = async (event) => {
         const user = body.user;
         const date_Time = new Date();
       
-        const connection1 = connectfunc(); 
-        const connection2 = connectfunc(); 
-        const connection3 = connectfunc(); 
-        const connection4 = connectfunc();
-        const connection5 = connectfunc(); 
+       ; 
 
         let sql1 = 'INSERT INTO Scrum_scrumchatmessage (user) VALUES(?)'
         let result1 = connection1.query(sql1,[user], (error, results, fields) => {

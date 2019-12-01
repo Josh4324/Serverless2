@@ -121,8 +121,8 @@ const sendMessageToAllConnected = async (event) => {
         const date_Time = new Date();
 
         const connection = connectfunc();
-        let sql1 = 'INSERT INTO Scrum_scrumchatmessage (user,message) VALUES(?,?)'
-        let result1 = connection.query(sql1,[user,message], (error, results, fields) => {
+        let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message) VALUES(?)'
+        let result1 = connection.query(sql1,[message], (error, results, fields) => {
         if(results) {
             connection.end()
         }if (error){

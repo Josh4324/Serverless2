@@ -116,9 +116,8 @@ const sendMessageToAllConnected = async (event) => {
         const connectionId = connectid.connectionid;
         const project_id = body.project_id;
         const user = body.user;
-        const goal_id = body.goal_id;
-        const slack_username = body.slack_username;
-
+        const date_Time = new Date();
+      
         const connection1 = connectfunc(); 
         const connection2 = connectfunc(); 
         const connection3 = connectfunc(); 

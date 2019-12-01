@@ -102,7 +102,7 @@ const  deleteConnection = async (connectionId) => {
   return result
 };
 
-const sendMessageToAllConnected = (event) => {
+const sendMessageToAllConnected = async (event) => {
   const connection = connectfunc();
   connection.connect();
   let sql = 'SELECT connectionid from Scrum_connectiontable'

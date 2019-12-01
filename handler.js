@@ -12,8 +12,6 @@ const connection = mysql.createConnection({
   port: '3000'
 });
 
-connection.connect();
-
 
  const successfullResponse = {
   statusCode: 200,
@@ -36,18 +34,17 @@ const connectfunc = () => {
 module.exports.connectionHandler = (event, context, callback) => {
   console.log(event);
   const connection = connectfunc();
+  connection.connect();
 
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection
     addConnection(event.requestContext.connectionId)
       .then(() => {
         callback(null, successfullResponse);
-        connection.end()
       })
       .catch(err => {
         console.log(err);
         callback(null, JSON.stringify(err));
-        connection.end()
       });
   } else if (event.requestContext.eventType === 'MESSAGE') {
           sendInit(event).then(() => {
@@ -62,7 +59,6 @@ module.exports.connectionHandler = (event, context, callback) => {
     deleteConnection(event.requestContext.connectionId)
       .then(() => {
         callback(null, successfullResponse);
-        connection.end()
       })
       .catch(err => {
         console.log(err);
@@ -70,7 +66,6 @@ module.exports.connectionHandler = (event, context, callback) => {
           statusCode: 500,
           body: 'Failed to connect: ' + JSON.stringify(err)
         });
-        connection.end()
       });
   }
 
@@ -81,9 +76,8 @@ module.exports.connectionHandler = (event, context, callback) => {
 const addConnection = async (connectionId) => {
   
   let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
-
-  // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
   let results = await connection.query( sql,[connectionId] )
+  connection.end()
 
 
   return results
@@ -96,6 +90,7 @@ const deleteConnection = async (connectionId) => {
 
   let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
   let results = await connection.query(sql,[connectionId])
+  connection.end()
 
   return results
 };

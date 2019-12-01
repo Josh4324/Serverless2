@@ -27,8 +27,6 @@ module.exports.connectionHandler = (event, context, callback) => {
   const connection = connectfunc();
   connection.connect();
 
-  const connectionId = event.requestContext.connectionId
-
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection
     let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
@@ -65,6 +63,7 @@ module.exports.connectionHandler = (event, context, callback) => {
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
+
 
 
 

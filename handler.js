@@ -4,15 +4,6 @@ const AWS = require('aws-sdk');
 require('aws-sdk/clients/apigatewaymanagementapi');
 const mysql = require('mysql')
 
-const connection = mysql.createConnection({
-  host: '34.217.176.147',
-  user :'linuxjobber',
-  password: '8iu7*IU&',
-  database : 'chatscrum',
-  port: '3000'
-});
-
-
  const successfullResponse = {
   statusCode: 200,
   body: 'everything is alright'
@@ -40,10 +31,12 @@ module.exports.connectionHandler = (event, context, callback) => {
     //Handle Connection
     addConnection(event.requestContext.connectionId)
       .then(() => {
+        connection.end()
         callback(null, successfullResponse);
       })
       .catch(err => {
         console.log(err);
+        connection.end()
         callback(null, JSON.stringify(err));
       });
   } else if (event.requestContext.eventType === 'MESSAGE') {
@@ -77,8 +70,6 @@ const addConnection = async (connectionId) => {
   
   let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
   let results = await connection.query( sql,[connectionId] )
-  connection.end()
-
 
   return results
 
@@ -90,7 +81,6 @@ const deleteConnection = async (connectionId) => {
 
   let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
   let results = await connection.query(sql,[connectionId])
-  connection.end()
 
   return results
 };

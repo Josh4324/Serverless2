@@ -28,6 +28,14 @@ module.exports.connectionHandler = (event, context, callback) => {
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection
     addConnection(event.requestContext.connectionId)
+    .then(() => {
+      callback(null, successfullResponse);
+    })
+    .catch(err => {
+      console.log(err);
+      callback(null, JSON.stringify(err));
+    });
+    
   
   } else if (event.requestContext.eventType === 'MESSAGE') {
           sendInit(event).then(() => {
@@ -40,7 +48,13 @@ module.exports.connectionHandler = (event, context, callback) => {
  else if (event.requestContext.eventType === 'DISCONNECT') {
     //Handle disconnection
     deleteConnection(event.requestContext.connectionId)
-    
+    .then(() => {
+      callback(null, successfullResponse);
+    })
+    .catch(err => {
+      console.log(err);
+      callback(null, JSON.stringify(err));
+    });
   }
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
@@ -48,11 +62,11 @@ module.exports.connectionHandler = (event, context, callback) => {
 };
 
 
-const addConnection = (connectionId) => {
+const addConnection = async (connectionId) => {
   const connection = connectfunc();
   connection.connect();
   let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
-  connection.query( sql,[connectionId], (res,err) => {
+  let result = await connection.query( sql,[connectionId], (res,err) => {
     if(err) {
       connection.end()
     }
@@ -60,18 +74,22 @@ const addConnection = (connectionId) => {
       connection.end()
     }
   })
+
+  return result
 };
 
-const deleteConnection = (connectionId) => {
+const  deleteConnection = async (connectionId) => {
   const connection = connectfunc();
   connection.connect();
   let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
-  connection.query(sql,[connectionId], (res,err) => {
+  let result = await connection.query(sql,[connectionId], (res,err) => {
     if (err) {
       connection.end()
     }
     else {
       connection.end()
     }
-  }); 
+  });
+  
+  return result
 };

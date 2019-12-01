@@ -50,10 +50,12 @@ module.exports.connectionHandler = (event, context, callback) => {
       })
       .catch(err => {
         console.log(err);
+
         callback(null, {
           statusCode: 500,
           body: 'Failed to connect: ' + JSON.stringify(err)
         });
+        connection.end()
       });
   }
 
@@ -80,9 +82,6 @@ const deleteConnection = async (connectionId) => {
 
   let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
   let results = await connection.query(sql,[connectionId])
-
-
-  connection.end()
 
   return results
 };

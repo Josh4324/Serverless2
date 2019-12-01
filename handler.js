@@ -126,7 +126,7 @@ const sendMessageToAllConnected = async (event) => {
         const connection5 = connectfunc(); 
 
         let sql1 = 'INSERT INTO Scrum_scrumchatmessage (user) VALUES(?)'
-        let result1 = await connection1.query(sql1,[user], (error, results, fields) => {
+        let result1 = connection1.query(sql1,[user], (error, results, fields) => {
           if(results) {
             connection1.end()
           }if (error){
@@ -134,7 +134,7 @@ const sendMessageToAllConnected = async (event) => {
           }
         })
         let sql2 = 'INSERT INTO Scrum_scrumchatmessage (message) VALUES(?)'
-        let result2 = await connection2.query(sql2,[message], (error, results, fields) => {
+        let result2 = connection2.query(sql2,[message], (error, results, fields) => {
           if(results) {
             connection2.end()
           }if (error){
@@ -142,7 +142,7 @@ const sendMessageToAllConnected = async (event) => {
           }
         })
         let sql3 = 'INSERT INTO Scrum_scrumchatmessage (room_id) VALUES(?)'
-        let result3 = await connection3.query(sql3,[user], (error, results, fields) => {
+        let result3 = connection3.query(sql3,[user], (error, results, fields) => {
           if(results) {
             connection3.end()
           }if (error){
@@ -150,7 +150,7 @@ const sendMessageToAllConnected = async (event) => {
           }
         })
         let sql4 = 'INSERT INTO Scrum_scrumchatmessage (date_Time) VALUES(?)'
-        let result4 = await connection4.query(sql4,[date_Time], (error, results, fields) => {
+        let result4 = connection4.query(sql4,[date_Time], (error, results, fields) => {
           if(results) {
             connection4.end()
           }if (error){
@@ -161,7 +161,7 @@ const sendMessageToAllConnected = async (event) => {
 
 
         let all = 'SELECT * FROM Scrum_scrumchatmessage'
-        let result5 = await connection4.query(all,(error, results, fields) => {
+        let result5 = connection4.query(all,(error, results, fields) => {
           if(results) {
             connection5.end()
             console.log(results)

@@ -33,6 +33,7 @@ module.exports.connectionHandler = (event, context, callback) => {
       .catch(err => {
         console.log(err);
         callback(null, JSON.stringify(err));
+        connection.end()
       });
   } else if (event.requestContext.eventType === 'MESSAGE') {
           sendInit(event).then(() => {
@@ -70,7 +71,7 @@ const addConnection = async (connectionId) => {
   // let results = await mysql.query('INSERT INTO Scrum_connectiontable(connectionid) VALUES(connectionId)')
   let results = await connection.query( sql,[connectionId] )
 
-  connection.end()
+  
 
   return results
 

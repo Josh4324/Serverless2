@@ -109,6 +109,28 @@ const sendMessageToAllConnected = async (event) => {
   let result = await connection.query(sql, (error, results, fields) => {
     if (results) {
       connection.end()
+      results.map( (connectid) => {
+        const body = JSON.parse(event.body);
+        console.log(body)
+        const postData = body.data;
+        const message = body.data;
+        const connectionId = connectid.connectionid
+
+        const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
+        const apigwManagementApi = new AWS.ApiGatewayManagementApi({
+            apiVersion: "2018-11-29",
+            endpoint: endpoint
+      });
+
+        const params = {
+            ConnectionId: connectionId,
+            Data: postData
+        };
+
+        return apigwManagementApi.postToConnection(params).promise();
+
+      })
+      
       console.log(results)
     }if (error){
       connection.end()

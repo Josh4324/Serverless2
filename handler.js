@@ -78,7 +78,8 @@ const addConnection = async (connectionId) => {
 
 const deleteConnection = async (connectionId) => {
 
-  let results = await mysql.query('DELETE FROM Scrum_connectiontable WHERE connectionid = connectionId')
+  let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
+  let results = await connection.query(sql,[connectionId])
 
 
   await mysql.end()

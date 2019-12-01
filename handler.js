@@ -127,6 +127,7 @@ const sendMessageToAllConnected = async (event) => {
             connection.end()
         }if (error){
             connection.end()
+            console.log(error)
             }
         })
 

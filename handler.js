@@ -104,83 +104,65 @@ const  deleteConnection = async (connectionId) => {
 
 const sendMessageToAllConnected = async (event) => {
  
-  const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: '34.217.176.147',
-    user :'linuxjobber',
-    password: '8iu7*IU&',
-    database : 'chatscrum',
-    port: '3000'
-  })
+  const connection = connectfunc();
+  connection.connect();
 
-  pool.getConnection( async (err,connection) => {
-    if (err){
-      throw err
-    }else {
-      let sql = 'SELECT connectionid from Scrum_connectiontable'
-      let result = await connection.query(sql, (error, results, fields) => {
-        if (results) {
-          connection.release()
-          results.map((connectid) => {
-              const body = JSON.parse(event.body);
-              console.log(body)
-              const message = body.data;
-              const connectionId = connectid.connectionid;
-              const project_id = body.project_id;
-              const user = body.user;
-              const date_Time = new Date();
+  let sql = 'SELECT connectionid from Scrum_connectiontable'
+  let result = await connection.query(sql, (error, results, fields) => {
+  if (results) {
+    connection.end()
+    results.map((connectid) => {
+        const body = JSON.parse(event.body);
+        console.log(body)
+        const message = body.data;
+        const connectionId = connectid.connectionid;
+        const project_id = body.project_id;
+        const user = body.user;
+        const date_Time = new Date();
 
+        const connection = connectfunc();
+        let sql1 = 'INSERT INTO Scrum_scrumchatmessage (user,message,room_id,date_time) VALUES(?)'
+        let result1 = connection.query(sql1,[user,message,project_id,date_Time], (error, results, fields) => {
+        if(results) {
+            connection.end()
+        }if (error){
+            connection.end()
+            }
+        })
 
-              let sql1 = 'INSERT INTO Scrum_scrumchatmessage (user,message,room_id,date_time) VALUES(?)'
-              let result1 = connection.query(sql1,[user,message,project_id,date_Time], (error, results, fields) => {
-              if(results) {
-                  connection.release()
-              }if (error){
-                  throw error
-                  }
-              })
+        /* let all = 'SELECT * FROM Scrum_scrumchatmessage'
+        let result5 = connection.query(all,(error, results, fields) => {
+        if(results) {
+            connection.release()
+            console.log(results)
+        }if (error){
+            throw error
+        }
+        })
+ */
 
-              let all = 'SELECT * FROM Scrum_scrumchatmessage'
-              let result5 = connection.query(all,(error, results, fields) => {
-              if(results) {
-                  connection.release()
-                  console.log(results)
-              }if (error){
-                  throw error
-              }
-              })
+        const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
+        const apigwManagementApi = new AWS.ApiGatewayManagementApi({
+        apiVersion: "2018-11-29",
+        endpoint: endpoint
+        });
 
-
-              const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
-              const apigwManagementApi = new AWS.ApiGatewayManagementApi({
-              apiVersion: "2018-11-29",
-              endpoint: endpoint
-              });
-
-              const params = {
-                ConnectionId: connectionId,
-                Data: message,
-              };
+        const params = {
+          ConnectionId: connectionId,
+          Data: message,
+        };
 
 
 
-              return apigwManagementApi.postToConnection(params).promise();
+        return apigwManagementApi.postToConnection(params).promise();
 
 
 
         })
         }
 
-        else{
-          if (error){
-            throw error
-          }
-        }
+     
       })
-
-    }
-
-  })
       
 
         

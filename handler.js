@@ -29,16 +29,16 @@ module.exports.connectionHandler = (event, context, callback) => {
 
   if (event.requestContext.eventType === 'CONNECT') {
     //Handle Connection
-    addConnection(event.requestContext.connectionId)
-      .then(() => {
+    let sql = 'INSERT INTO Scrum_connectiontable (connectionid) VALUES(?)'
+    connection.query( sql,[connectionId], (res,err) => {
+      if(err) {
         connection.end()
-        callback(null, successfullResponse);
-      })
-      .catch(err => {
-        console.log(err);
+      }
+      else{
         connection.end()
-        callback(null, JSON.stringify(err));
-      });
+      }
+    })
+  
   } else if (event.requestContext.eventType === 'MESSAGE') {
           sendInit(event).then(() => {
                callback(null, successfullResponse)
@@ -49,17 +49,15 @@ module.exports.connectionHandler = (event, context, callback) => {
 
  else if (event.requestContext.eventType === 'DISCONNECT') {
     //Handle disconnection
-    deleteConnection(event.requestContext.connectionId)
-      .then(() => {
-        callback(null, successfullResponse);
-      })
-      .catch(err => {
-        console.log(err);
-        callback(null, {
-          statusCode: 500,
-          body: 'Failed to connect: ' + JSON.stringify(err)
-        });
-      });
+    let sql = 'DELETE FROM Scrum_connectiontable where connectionid= ? '
+    connection.query(sql,[connectionId], (res,err) => {
+      if (err) {
+        connection.end()
+      }
+      else {
+        connection.end()
+      }
+    }); 
   }
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration

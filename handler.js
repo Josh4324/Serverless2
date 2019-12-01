@@ -106,15 +106,17 @@ const sendMessageToAllConnected = async (event) => {
   const connection = connectfunc();
   connection.connect();
   let sql = 'SELECT connectionid from Scrum_connectiontable'
-  let result = await connection.query(sql, (res,err) => {
-    if (res){
-      console.log(res)
+  let result = await connection.query(sql).then(
+    (data) => {
+      console.log(data)
       connection.end()
     }
-    else{
-      connection.end
+  ).catch(
+    (err) => {
+      console.log(err)
+      connection.end()
     }
-  });
+  )
 
   return result
 }

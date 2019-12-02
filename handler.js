@@ -209,7 +209,7 @@ const checkId = (project_id) => {
     if (results.length === 0) {
       connection3.end()
       
-      return false
+      return true
       
       
     }

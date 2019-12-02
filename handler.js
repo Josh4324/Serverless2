@@ -133,13 +133,12 @@ const sendMessageToAllConnected = async (event) => {
   if(results) {
     connection2.end()
       alldata = JSON.stringify(results);
-      console.log(alldata)
   }if (error){
     connection2.end() 
       }
   })
 
-
+  console.log(alldata)
   const connection1 = connectfunc();
 
   let sql = 'SELECT connectionid from Scrum_connectiontable'

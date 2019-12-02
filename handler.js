@@ -140,9 +140,9 @@ const sendMessageToAllConnected = async (event) => {
   let alldata;
 
 
-  const connection = connectfunc();
+  const connection1 = connectfunc();
   let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
-  let result6 = connection.query(sql2, [project_id], (error,results,fields) => {
+  let result6 = connection1.query(sql2, [project_id], (error,results,fields) => {
     console.log("result",results)
     if (results.length === 0) {
       connection.end()
@@ -150,16 +150,16 @@ const sendMessageToAllConnected = async (event) => {
 
       
       const sql5 = 'INSERT INTO Scrum_scrumchatroom (id,name,hash) VALUES(?,?,?)'
-
-      let newresult = connection.query(sql5,[project_id,name,hash], (error,results,fields) => {
+      const connection2 = connectfunc();
+      let newresult = connection2.query(sql5,[project_id,name,hash], (error,results,fields) => {
       if(results){
         console.log("DONE1")
-      connection.end()
+      connection2.end()
         console.log(results)
       }if(error){
         console.log("DONE2")
         console.log(error)
-      connection.end()
+      connection2.end()
       }
 }) 
     
@@ -168,12 +168,12 @@ const sendMessageToAllConnected = async (event) => {
 
 
   let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
-      
+  const connection3 = connectfunc();
   let result1 = connection.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
             if(results) {
-                connection.end()
+                connection3.end()
             }if (error){
-                connection.end()
+                connection3.end()
                 console.log(error)
                 }
             })
@@ -181,18 +181,20 @@ const sendMessageToAllConnected = async (event) => {
 
 
   let sql = 'SELECT connectionid from Scrum_connectiontable'
+  const connection4 = connectfunc();
   let result = await connection.query(sql, (error, results, fields) => {
   if (results) {
     console.log(results)
-    connection.end()
+    connection4.end()
     results.map((connectid) => {
 
       const connectionId = connectid.connectionid;
 
       let all = 'SELECT * FROM Scrum_scrumchatmessage'
+      const connection5 = connectfunc();
       let result5 = connection.query(all,(error, results, fields) => {
       if(results) {
-        connection.end()
+        connection5.end()
           alldata = JSON.stringify(results);
 
           const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
@@ -209,13 +211,11 @@ const sendMessageToAllConnected = async (event) => {
 
           return apigwManagementApi.postToConnection(params).promise();
       }if (error){
-        connection.end() 
+        connection5.end() 
           }
       })
       
         })
-        }if (error) {
-          connection.end()
         }
 
       })

@@ -120,6 +120,7 @@ const sendMessageToAllConnected = async (event) => {
   let check = checkId(project_id)
 
   if (check === true) {
+      console.log(true)
       AddId(project_id,name,hash)
   }
 

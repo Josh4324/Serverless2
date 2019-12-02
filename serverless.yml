@@ -39,6 +39,6 @@ functions:
     handler: handler.sendMessageHandler
     events:
       - websocket:
-          route: message
+          route: send
 
           

@@ -127,11 +127,12 @@ const sendMessageToAllConnected = async (event) => {
       results.map((id) => {
         if (id.id !== project_id) {
           console.log(id.id)
-            const connection4 = connectfunc();
-            const sql5 = 'INSERT INTO Scrum_scrumchatroom (project_id,name,hash) VALUES(?)'
-            connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
+          const connection4 = connectfunc();
+          const sql5 = 'INSERT INTO Scrum_scrumchatroom (project_id,name,hash) VALUES(?,?,?)'
+          connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
                 if(results){
                   connection4.end()
+                  console.log(results)
                 }if(error){
                   connection4.end()
                 }
@@ -139,9 +140,6 @@ const sendMessageToAllConnected = async (event) => {
         }
       })  
 
-
-
-      console.log(results)
     }if (error){
       connection3.end()
     }

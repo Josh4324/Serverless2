@@ -104,8 +104,8 @@ const  deleteConnection = async (connectionId) => {
 
 const sendMessageToAllConnected = async (event) => {
  
-  const connection = connectfunc();
-  connection.connect();
+  
+
 
   const body = JSON.parse(event.body);
   console.log(body)
@@ -125,6 +125,7 @@ const sendMessageToAllConnected = async (event) => {
     if (results) {
       connection3.end()
       console.log(results)
+      const connection = connectfunc();
       let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
       let result1 = connection.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
       if(results) {
@@ -153,11 +154,12 @@ const sendMessageToAllConnected = async (event) => {
 
 
       let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
-      let result1 = connection.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
+      const connection0 = connectfunc();
+      let result1 = connection0.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
             if(results) {
-                connection.end()
+                connection0.end()
             }if (error){
-                connection.end()
+                connection0.end()
                 console.log(error)
                 }
             })

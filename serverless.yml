@@ -35,5 +35,10 @@ functions:
     events:
       - websocket:
           route: message
+  sendMessageHandler:
+    handler: handler.sendMessageHandler
+    events:
+      - websocket:
+          route: message
 
           

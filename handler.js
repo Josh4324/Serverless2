@@ -70,6 +70,16 @@ module.exports.sendMessageHandler = (event, context, callback) => {
 }
 
 
+module.exports.sendHandler = (event,context,callback) => {
+  sendMessage(event).then(() => {
+    callback(null, successfullResponse)
+  }).catch (err => {
+    callback(null, JSON.stringify(err));
+  });
+}
+
+
+
 const addConnection = async (connectionId) => {
   const connection = connectfunc();
   connection.connect();
@@ -120,6 +130,89 @@ const  deleteConnection = async (connectionId) => {
 
 const AddId = (project_id,name,hash) => {
   
+
+}
+
+const sendMessage = async (event) => {
+
+  const body = JSON.parse(event.body);
+  console.log(body)
+  const message = body.data;
+  const project_id = body.project_id;
+  const user = body.user;
+  const date_Time = new Date();
+  const profile_picture = "nothing";
+  const name = "none";
+  const hash = "hash";
+
+  const connection1 = connectfunc();
+  let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
+  let result6 = connection1.query(sql2, [project_id], (error,results,fields) => {
+    console.log("result",results)
+    if (results.length === 0) {
+      connection1.end()
+      console.log(results.length)
+
+      
+      const sql5 = 'INSERT INTO Scrum_scrumchatroom (id,name,hash) VALUES(?,?,?)'
+      const connection2 = connectfunc();
+      let newresult = connection2.query(sql5,[project_id,name,hash], (error,results,fields) => {
+      if(results){
+        console.log("DONE1")
+      connection2.end()
+        console.log(results)
+      }if(error){
+        console.log("DONE2")
+        console.log(error)
+      connection2.end()
+      }
+}) 
+    
+    }
+});
+
+let sql = 'SELECT connectionid from Scrum_connectiontable'
+  const connection4 = connectfunc();
+  let result = await connection4.query(sql, (error, results, fields) => {
+  if (results) {
+    console.log(results)
+
+    let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
+    const connection3 = connectfunc();
+    let result1 = connection3.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
+            if(results) {
+                connection3.end()
+            }if (error){
+                connection3.end()
+                console.log(error)
+                }
+            })
+    
+
+    connection4.end()
+    results.map((connectid) => {
+
+      const connectionId = connectid.connectionid;
+
+      const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
+          const apigwManagementApi = new AWS.ApiGatewayManagementApi({
+          apiVersion: "2018-11-29",
+          endpoint: endpoint
+          });
+  
+          const params = {
+            ConnectionId: connectionId,
+            Data: message,
+          };
+
+
+          return apigwManagementApi.postToConnection(params).promise();
+      
+        })
+        }
+
+      })
+
 
 }
 

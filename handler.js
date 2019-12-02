@@ -132,8 +132,8 @@ const sendMessageToAllConnected = async (event) => {
   let result5 = connection2.query(all,(error, results, fields) => {
   if(results) {
     connection2.end()
-      console.log(results)
       alldata = JSON.stringify(results);
+      console.log(alldata)
   }if (error){
     connection2.end() 
       }

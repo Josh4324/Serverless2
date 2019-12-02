@@ -119,17 +119,7 @@ const  deleteConnection = async (connectionId) => {
 } */
 
 const AddId = (project_id,name,hash) => {
-  const connection4 = connectfunc();
-  const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
-
-  let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
-    if(results){
-      connection4.end()
-      console.log(results)
-    }if(error){
-      connection4.end()
-    }
-}) 
+  
 
 }
 
@@ -148,7 +138,6 @@ const sendMessageToAllConnected = async (event) => {
   const name = "none";
   const hash = "hash";
   let alldata;
-  let length1;
 
 
   const connection3 = connectfunc();
@@ -158,11 +147,25 @@ const sendMessageToAllConnected = async (event) => {
     if (results.length === 0) {
       connection3.end()
       console.log(results.length)
-      console.log("ok")   
+
+      const connection4 = connectfunc();
+      const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
+
+      let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
+      if(results){
+      connection4.end()
+      console.log(results)
+      }if(error){
+      connection4.end()
+      }
+}) 
+      
+
+
     }
 });
 
-  console.log("ok")
+ 
 
 
   /* const connection0 = connectfunc();

@@ -104,8 +104,6 @@ const  deleteConnection = async (connectionId) => {
 
 const sendMessageToAllConnected = async (event) => {
  
-  
-
 
   const body = JSON.parse(event.body);
   console.log(body)
@@ -118,36 +116,17 @@ const sendMessageToAllConnected = async (event) => {
   const hash = "hash";
   let alldata;
 
-  const connection3 = connectfunc();
 
-  let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
-  let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
-    if (results.length === 0) {
-      connection3.end()
-      console.log(results)
-      
-      const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
-      const connection4 = connectfunc();
-      let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
-                if(results){
-                  connection4.end()
-                  console.log(results)
-                }if(error){
-                  connection4.end()
-                }
-            }) 
-      
-      
-    }if (error){
-      connection3.end()
-    }else{
-      console.log("error ooooo")
-      
+  let check = checkId()
 
+  if (check === true) {
+      AddId()
+  }
 
-      let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
-      const connection0 = connectfunc();
-      let result1 = connection0.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
+  const connection0 = connectfunc();
+  let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
+      
+  let result1 = connection0.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
             if(results) {
                 connection0.end()
             }if (error){
@@ -155,15 +134,7 @@ const sendMessageToAllConnected = async (event) => {
                 console.log(error)
                 }
             })
-
     
-    }
-  })
-
-
-  
-
-  
 
  
   const connection1 = connectfunc();
@@ -229,6 +200,41 @@ const sendMessageToAllConnected = async (event) => {
 
       
 
-const sendAllMessages = async (event) => {
+const checkId = async (event) => {
+
+  const connection3 = connectfunc();
+
+  let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
+  let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
+    if (results.length === 0) {
+      connection3.end()
+      
+      return false
+      
+      
+    }
+}
 
 }
+
+
+
+
+const AddId = () => {
+  const connection4 = connectfunc();
+  const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
+
+  let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
+    if(results){
+      connection4.end()
+      console.log(results)
+    }if(error){
+      connection4.end()
+    }
+}) 
+
+}
+
+  
+
+

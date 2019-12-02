@@ -125,6 +125,18 @@ const sendMessageToAllConnected = async (event) => {
       }
   })
 
+  const connection2 = connectfunc();
+
+  let all = 'SELECT * FROM Scrum_scrumchatmessage'
+  let result5 = connection2.query(all,(error, results, fields) => {
+  if(results) {
+    connection2.end()
+      console.log(results)
+  }if (error){
+    connection2.end() 
+      }
+  })
+
 
   const connection1 = connectfunc();
 
@@ -137,19 +149,10 @@ const sendMessageToAllConnected = async (event) => {
         
 
         
-      const message1 = body.data;
-      const connectionId = connectid.connectionid;
+        const message1 = body.data;
+        const connectionId = connectid.connectionid;
 
-        /* let all = 'SELECT * FROM Scrum_scrumchatmessage'
-        let result5 = connection.query(all,(error, results, fields) => {
-        if(results) {
-            connection.release()
-            console.log(results)
-        }if (error){
-            throw error
-        }
-        })
- */
+        
 
         const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
         const apigwManagementApi = new AWS.ApiGatewayManagementApi({

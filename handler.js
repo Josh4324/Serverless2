@@ -126,19 +126,9 @@ const sendMessageToAllConnected = async (event) => {
       }
   })
 
-  const connection2 = connectfunc();
+  
 
-  let all = 'SELECT * FROM Scrum_scrumchatmessage'
-  let result5 = connection2.query(all,(error, results, fields) => {
-  if(results) {
-    connection2.end()
-      alldata = JSON.stringify(results);
-  }if (error){
-    connection2.end() 
-      }
-  })
-
-  console.log(alldata)
+ 
   const connection1 = connectfunc();
 
   let sql = 'SELECT connectionid from Scrum_connectiontable'
@@ -147,30 +137,39 @@ const sendMessageToAllConnected = async (event) => {
     console.log(results)
     connection1.end()
     results.map((connectid) => {
+
+
+      const connection2 = connectfunc();
+      const connectionId = connectid.connectionid;
+
+      let all = 'SELECT * FROM Scrum_scrumchatmessage'
+      let result5 = connection2.query(all,(error, results, fields) => {
+      if(results) {
+        connection2.end()
+          alldata = JSON.stringify(results);
+
+          const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
+          const apigwManagementApi = new AWS.ApiGatewayManagementApi({
+          apiVersion: "2018-11-29",
+          endpoint: endpoint
+          });
+  
+          const params = {
+            ConnectionId: connectionId,
+            Data: alldata,
+          };
+
+
+          return apigwManagementApi.postToConnection(params).promise();
+      }if (error){
+        connection2.end() 
+          }
+      })
         
 
         
-        const message1 = body.data;
-        const connectionId = connectid.connectionid;
-
         
-
-        const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
-        const apigwManagementApi = new AWS.ApiGatewayManagementApi({
-        apiVersion: "2018-11-29",
-        endpoint: endpoint
-        });
-
-        const params = {
-          ConnectionId: connectionId,
-          Data: message1,
-        };
-
-
-
-        return apigwManagementApi.postToConnection(params).promise();
-
-
+      
 
         })
         }

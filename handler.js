@@ -182,7 +182,7 @@ const sendMessageToAllConnected = async (event) => {
 
   let sql = 'SELECT connectionid from Scrum_connectiontable'
   const connection4 = connectfunc();
-  let result = await connection.query(sql, (error, results, fields) => {
+  let result = await connection4.query(sql, (error, results, fields) => {
   if (results) {
     console.log(results)
     connection4.end()
@@ -192,7 +192,7 @@ const sendMessageToAllConnected = async (event) => {
 
       let all = 'SELECT * FROM Scrum_scrumchatmessage'
       const connection5 = connectfunc();
-      let result5 = connection.query(all,(error, results, fields) => {
+      let result5 = connection5.query(all,(error, results, fields) => {
       if(results) {
         connection5.end()
           alldata = JSON.stringify(results);

@@ -157,14 +157,13 @@ const sendMessageToAllConnected = async (event) => {
     console.log("result",results)
     if (results.length === 0) {
       connection3.end()
-      length1 = length;
-      console.log(results.length)   
+      console.log(results.length)
+      console.log("ok")   
     }
 });
 
-if (length1 === 0){
   console.log("ok")
-}
+
 
   /* const connection0 = connectfunc();
   let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'

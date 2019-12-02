@@ -102,23 +102,7 @@ const  deleteConnection = async (connectionId) => {
   return result
 };
 
-const checkId = (project_id) => {
 
-  const connection3 = connectfunc();
-
-  let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
-  let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
-    console.log("result",results)
-    if (results.length === 0) {
-      connection3.end()
-      console.log(results.length)
-      return true
-      
-      
-    }
-});
-
-}
 
 const AddId = (project_id,name,hash) => {
   const connection4 = connectfunc();
@@ -150,6 +134,24 @@ const sendMessageToAllConnected = async (event) => {
   const name = "none";
   const hash = "hash";
   let alldata;
+
+  const checkId = (project_id) => {
+
+    const connection3 = connectfunc();
+  
+    let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
+    let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
+      console.log("result",results)
+      if (results.length === 0) {
+        connection3.end()
+        console.log(results.length)
+        return true
+        
+        
+      }
+  });
+  
+  }
 
 
   let check = checkId(project_id)

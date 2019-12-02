@@ -213,7 +213,7 @@ const checkId = async (event) => {
       
       
     }
-}
+});
 
 }
 

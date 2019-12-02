@@ -164,7 +164,7 @@ const sendMessageToAllConnected = async (event) => {
 
         const params = {
           ConnectionId: connectionId,
-          Data: alldata,
+          Data: message1,
         };
 
 

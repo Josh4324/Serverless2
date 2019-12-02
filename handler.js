@@ -102,6 +102,41 @@ const  deleteConnection = async (connectionId) => {
   return result
 };
 
+const checkId = (project_id) => {
+
+  const connection3 = connectfunc();
+
+  let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
+  let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
+    console.log("result",results)
+    if (results.length === 0) {
+      connection3.end()
+      console.log(results.length)
+      return true
+      
+      
+    }
+});
+
+}
+
+const AddId = (project_id,name,hash) => {
+  const connection4 = connectfunc();
+  const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
+
+  let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
+    if(results){
+      connection4.end()
+      console.log(results)
+    }if(error){
+      connection4.end()
+    }
+}) 
+
+}
+
+
+
 const sendMessageToAllConnected = async (event) => {
  
 
@@ -202,41 +237,10 @@ const sendMessageToAllConnected = async (event) => {
 
       
 
-const checkId = (project_id) => {
-
-  const connection3 = connectfunc();
-
-  let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
-  let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
-    console.log("result",results)
-    if (results.length === 0) {
-      connection3.end()
-      console.log(results.length)
-      return true
-      
-      
-    }
-});
-
-}
 
 
 
 
-const AddId = (project_id,name,hash) => {
-  const connection4 = connectfunc();
-  const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
-
-  let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
-    if(results){
-      connection4.end()
-      console.log(results)
-    }if(error){
-      connection4.end()
-    }
-}) 
-
-}
 
   
 

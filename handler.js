@@ -125,7 +125,8 @@ const sendMessageToAllConnected = async (event) => {
     if (results) {
       connection3.end()
       console.log(results)
-        
+    if (error) {
+      console.log("error ooooo")
       const sql5 = 'INSERT INTO Scrum_scrumchatroom (project_id,name,hash) VALUES(?,?,?)'
       const connection4 = connectfunc();
       let newresult = connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
@@ -136,6 +137,8 @@ const sendMessageToAllConnected = async (event) => {
                   connection4.end()
                 }
             })
+
+      }
        
    
 

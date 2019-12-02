@@ -211,7 +211,7 @@ const checkId = (project_id) => {
     console.log("result",results)
     if (results.length === 0) {
       connection3.end()
-      
+      console.log(results.length)
       return true
       
       

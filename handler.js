@@ -114,6 +114,7 @@ const sendMessageToAllConnected = async (event) => {
   const user = body.user;
   const date_Time = new Date();
   const profile_picture = "nothing"
+  let alldata;
 
   let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
   let result1 = connection.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
@@ -132,6 +133,7 @@ const sendMessageToAllConnected = async (event) => {
   if(results) {
     connection2.end()
       console.log(results)
+      alldata = JSON.stringify(results);
   }if (error){
     connection2.end() 
       }
@@ -162,7 +164,7 @@ const sendMessageToAllConnected = async (event) => {
 
         const params = {
           ConnectionId: connectionId,
-          Data: message1,
+          Data: alldata,
         };
 
 

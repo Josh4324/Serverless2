@@ -113,7 +113,9 @@ const sendMessageToAllConnected = async (event) => {
   const project_id = body.project_id;
   const user = body.user;
   const date_Time = new Date();
-  const profile_picture = "nothing"
+  const profile_picture = "nothing";
+  const name = "none";
+  const hash = "hash";
   let alldata;
 
   const connection3 = connectfunc();
@@ -122,7 +124,22 @@ const sendMessageToAllConnected = async (event) => {
   let result6 = connection3.query(sql2, (error,results,fields) => {
     if (results) {
       connection3.end()
-        console.log(results)
+      results.map((id) => {
+        if (id.id !== project_id) {
+            const connection4 = connectfunc();
+            sql5 = 'INSERT INTO Scrum_scrumchatroom (project_id,name,hash) VALUES(?)'
+            connection4.query(sql5,[project_id,name,hash], (error,results,fields) => {
+                if(results){
+                  connection4.end()
+                }if(error){
+                  connection4.end()
+                }
+            })
+        }
+      })  
+
+
+
       console.log(results)
     }if (error){
       connection3.end()

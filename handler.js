@@ -110,7 +110,6 @@ const sendMessageToAllConnected = async (event) => {
   const body = JSON.parse(event.body);
   console.log(body)
   const message = body.data;
-  const connectionId = connectid.connectionid;
   const project_id = body.project_id;
   const user = body.user;
   const date_Time = new Date();
@@ -138,7 +137,8 @@ const sendMessageToAllConnected = async (event) => {
         
 
         
-        
+      const message1 = body.data;
+      const connectionId = connectid.connectionid;
 
         /* let all = 'SELECT * FROM Scrum_scrumchatmessage'
         let result5 = connection.query(all,(error, results, fields) => {
@@ -159,7 +159,7 @@ const sendMessageToAllConnected = async (event) => {
 
         const params = {
           ConnectionId: connectionId,
-          Data: message,
+          Data: message1,
         };
 
 

@@ -121,7 +121,7 @@ const sendMessageToAllConnected = async (event) => {
   const connection3 = connectfunc();
 
   let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
-  let result6 = connection3.query(sql2, (error,results,fields) => {
+  let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
     if (results) {
       connection3.end()
       console.log(results)

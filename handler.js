@@ -117,10 +117,10 @@ const sendMessageToAllConnected = async (event) => {
   let alldata;
 
 
-  let check = checkId()
+  let check = checkId(project_id)
 
   if (check === true) {
-      AddId()
+      AddId(project_id,name,hash)
   }
 
   const connection0 = connectfunc();
@@ -200,7 +200,7 @@ const sendMessageToAllConnected = async (event) => {
 
       
 
-const checkId = async (event) => {
+const checkId = (project_id) => {
 
   const connection3 = connectfunc();
 
@@ -220,7 +220,7 @@ const checkId = async (event) => {
 
 
 
-const AddId = () => {
+const AddId = (project_id,name,hash) => {
   const connection4 = connectfunc();
   const sql5 = 'INSERT INTO Scrum_scrumchatroom (room_id,name,hash) VALUES(?,?,?)'
 

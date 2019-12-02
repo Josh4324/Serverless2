@@ -122,10 +122,10 @@ const sendMessageToAllConnected = async (event) => {
 
   let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
   let result6 = connection3.query(sql2, [project_id], (error,results,fields) => {
-    if (results) {
+    if (results === []) {
       connection3.end()
       console.log(results)
-    if (error) {
+  
       console.log("error ooooo")
       const sql5 = 'INSERT INTO Scrum_scrumchatroom (project_id,name,hash) VALUES(?,?,?)'
       const connection4 = connectfunc();
@@ -138,7 +138,7 @@ const sendMessageToAllConnected = async (event) => {
                 }
             })
 
-      }
+     
        
    
 

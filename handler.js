@@ -147,6 +147,7 @@ const sendMessage = async (event) => {
   const hash = "hash";
 
   const connection1 = connectfunc();
+
   let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
   let result6 = connection1.query(sql2, [project_id], (error,results,fields) => {
     console.log("result",results)
@@ -164,9 +165,11 @@ const sendMessage = async (event) => {
         console.log("DONE2")
         console.log(error)
         connection2.end()
-      }
-}) 
+        }
+      }) 
     
+    }else{
+      connection1.end()
     }
 });
 

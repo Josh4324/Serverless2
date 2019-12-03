@@ -65,7 +65,7 @@ module.exports.sendMessageHandler = (event, context, callback) => {
   
   sendMessageToAllConnected(event).then(() => {
     callback(null, successfullResponse)
-    context.callbackWaitsForEmptyEventLoop = false;
+   
   }).catch (err => {
     callback(null, JSON.stringify(err));
   });
@@ -76,7 +76,7 @@ module.exports.sendHandler = (event,context,callback) => {
   
   sendMessage(event).then(() => {
     callback(null, successfullResponse)
-    context.callbackWaitsForEmptyEventLoop = false;
+   
   }).catch (err => {
     callback(null, JSON.stringify(err));
   });
@@ -152,20 +152,18 @@ const sendMessage = async (event) => {
     console.log("result",results)
     if (results.length === 0) {
       connection1.end()
-      console.log(results.length)
 
-      
       const sql5 = 'INSERT INTO Scrum_scrumchatroom (id,name,hash) VALUES(?,?,?)'
       const connection2 = connectfunc();
       let newresult = connection2.query(sql5,[project_id,name,hash], (error,results,fields) => {
       if(results){
         console.log("DONE1")
-      connection2.end()
+        connection2.end()
         console.log(results)
       }if(error){
         console.log("DONE2")
         console.log(error)
-      connection2.end()
+        connection2.end()
       }
 }) 
     
@@ -174,7 +172,7 @@ const sendMessage = async (event) => {
 
 let sql = 'SELECT connectionid from Scrum_connectiontable'
   const connection4 = connectfunc();
-  let result = await connection4.query(sql, (error, results, fields) => {
+  let result = connection4.query(sql, (error, results, fields) => {
   if (results) {
     console.log(results)
 
@@ -260,7 +258,7 @@ const sendMessageToAllConnected = async (event) => {
 
   let sql = 'SELECT connectionid from Scrum_connectiontable'
   const connection4 = connectfunc();
-  let result = await connection4.query(sql, (error, results, fields) => {
+  let result = connection4.query(sql, (error, results, fields) => {
   if (results) {
     console.log(results)
     connection4.end()

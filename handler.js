@@ -62,8 +62,9 @@ module.exports.connectionHandler = (event, context, callback) => {
 };
 
 module.exports.sendMessageHandler = (event, context, callback) => {
-  context.callbackWaitsForEmptyEventLoop = false;
+  
   sendMessageToAllConnected(event).then(() => {
+    context.callbackWaitsForEmptyEventLoop = false;
     callback(null, successfullResponse)
   }).catch (err => {
     callback(null, JSON.stringify(err));
@@ -72,8 +73,9 @@ module.exports.sendMessageHandler = (event, context, callback) => {
 
 
 module.exports.sendHandler = (event,context,callback) => {
-  context.callbackWaitsForEmptyEventLoop = false;
+  
   sendMessage(event).then(() => {
+    context.callbackWaitsForEmptyEventLoop = false;
     callback(null, successfullResponse)
   }).catch (err => {
     callback(null, JSON.stringify(err));

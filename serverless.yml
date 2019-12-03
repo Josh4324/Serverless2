@@ -32,6 +32,7 @@ functions:
         route: $default
   sendMessageHandler:
     handler: handler.sendMessageHandler
+    timeout: 10
     events:
       - websocket:
           route: message

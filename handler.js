@@ -146,6 +146,8 @@ const sendMessage = async (event) => {
   const name = "none";
   const hash = "hash";
 
+  const messagedata = JSON.stringify({"message":message, 'user':user, 'project_id':project_id, "date_Time":date_Time})
+
   const connection1 = connectfunc();
 
   let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'
@@ -205,7 +207,7 @@ let sql = 'SELECT connectionid from Scrum_connectiontable'
   
           const params = {
             ConnectionId: connectionId,
-            Data: message,
+            Data: messagedata,
           };
 
 

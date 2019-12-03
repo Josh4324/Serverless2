@@ -62,6 +62,7 @@ module.exports.connectionHandler = (event, context, callback) => {
 };
 
 module.exports.sendMessageHandler = (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   sendMessageToAllConnected(event).then(() => {
     callback(null, successfullResponse)
   }).catch (err => {
@@ -71,6 +72,7 @@ module.exports.sendMessageHandler = (event, context, callback) => {
 
 
 module.exports.sendHandler = (event,context,callback) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   sendMessage(event).then(() => {
     callback(null, successfullResponse)
   }).catch (err => {
@@ -217,7 +219,6 @@ let sql = 'SELECT connectionid from Scrum_connectiontable'
 
 const sendMessageToAllConnected = async (event) => {
  
-
   const body = JSON.parse(event.body);
   console.log(body)
   const message = body.data;
@@ -228,7 +229,6 @@ const sendMessageToAllConnected = async (event) => {
   const name = "none";
   const hash = "hash";
   let alldata;
-
 
   const connection1 = connectfunc();
   let sql2 = 'SELECT id from Scrum_scrumchatroom where id = ?'

@@ -128,10 +128,7 @@ const  deleteConnection = async (connectionId) => {
 
 } */
 
-const AddId = (project_id,name,hash) => {
-  
 
-}
 
 const sendMessage = async (event) => {
 
@@ -241,18 +238,17 @@ const sendMessageToAllConnected = async (event) => {
       connection1.end()
       console.log(results.length)
 
-      
       const sql5 = 'INSERT INTO Scrum_scrumchatroom (id,name,hash) VALUES(?,?,?)'
       const connection2 = connectfunc();
       let newresult = connection2.query(sql5,[project_id,name,hash], (error,results,fields) => {
       if(results){
         console.log("DONE1")
-      connection2.end()
+        connection2.end()
         console.log(results)
       }if(error){
         console.log("DONE2")
         console.log(error)
-      connection2.end()
+        connection2.end()
       }
 }) 
     
@@ -260,15 +256,12 @@ const sendMessageToAllConnected = async (event) => {
 });
 
 
-  
-
-
   let sql = 'SELECT connectionid from Scrum_connectiontable'
   const connection4 = connectfunc();
   let result = await connection4.query(sql, (error, results, fields) => {
   if (results) {
     console.log(results)
-
+    connection4.end()
     let sql1 = 'INSERT INTO Scrum_scrumchatmessage (message,user,room_id,date_Time,profile_picture) VALUES(?,?,?,?,?)'
     const connection3 = connectfunc();
     let result1 = connection3.query(sql1,[message,user,project_id,date_Time,profile_picture], (error, results, fields) => {
@@ -279,9 +272,6 @@ const sendMessageToAllConnected = async (event) => {
                 console.log(error)
                 }
             })
-    
-
-    connection4.end()
     results.map((connectid) => {
 
       const connectionId = connectid.connectionid;
